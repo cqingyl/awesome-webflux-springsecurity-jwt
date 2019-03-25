@@ -6,6 +6,8 @@ import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 /**
  * Author: Administrator
  * DATE: 2019/3/12
@@ -19,4 +21,5 @@ public class Product {
     @Id
     String id;
     String name;
+    Date startDate;
 }

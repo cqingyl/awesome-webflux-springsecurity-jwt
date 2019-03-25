@@ -17,7 +17,7 @@ public interface IProductService {
 
     Mono<Void> remove(String id);
 
-    Mono<Product> update(Product user);
+    Mono<Product> update(Product product);
 
-    Mono<Product> save(Product user);
+    Mono<Product> save(Product product);
 }
