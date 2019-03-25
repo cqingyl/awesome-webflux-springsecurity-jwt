@@ -1,8 +1,7 @@
 package com.dawn.awesomewebfluxspringsecurityjwt.service;
 
+import com.dawn.awesomewebfluxspringsecurityjwt.entity.document.SysPermission;
 import reactor.core.publisher.Flux;
-
-import java.security.Permission;
 
 /**
  * Author: Administrator
@@ -10,5 +9,5 @@ import java.security.Permission;
  * DESC:
  **/
 public interface ISysUserPermissionService {
-    Flux<Permission> getByUserName(String userId);
+    Flux<SysPermission> getByUserName(String userId);
 }

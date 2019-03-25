@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,4 +73,22 @@ public class SysRolePermissionTests {
 
         sysPermissionRepository.saveAll(list).collectList().block();
     }
+
+    @Test
+    public void getRolePermission() {
+        sysPermissionRepository.findAll()
+                .collectList()
+                .flatMap(sp -> {
+                    log.info(sp);
+                    List<SysRolePermission> list = new ArrayList<>();
+                    sp.forEach(s -> {
+                        SysRolePermission sysRolePermission = new SysRolePermission();
+                        sysRolePermission.setRoleId("5c876d3f28a07d1ddcec6629");
+                        sysRolePermission.setPermissionId(s.getId());
+                        list.add(sysRolePermission);
+                    });
+                    return sysRolePermissionRepository.saveAll(list).collectList();
+                }).subscribe();
+    }
+
 }

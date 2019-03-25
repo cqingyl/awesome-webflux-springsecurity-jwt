@@ -12,6 +12,7 @@ import com.dawn.awesomewebfluxspringsecurityjwt.security.PBKDF2Encoder;
 import com.dawn.awesomewebfluxspringsecurityjwt.security.model.AuthResponse;
 import com.dawn.awesomewebfluxspringsecurityjwt.service.ISysUserService;
 import com.dawn.awesomewebfluxspringsecurityjwt.utils.CopyUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
@@ -106,19 +107,14 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     @Override
-//    public Mono<SysUser> save(SysUser sysUser) {
-////        return Mono.justOrEmpty(sysUser).filter(su ->
-////                StringUtils.isNotBlank(su.getUsername()) &&
-////                        StringUtils.isNotBlank(su.getPassword())
-////        ).flatMap(su -> {
-////            String encodePassword = encode.encode(sysUser.getPassword());
-////            sysUser.setPassword(encodePassword);
-////            return productRepository.save(sysUser);
-////        }).switchIfEmpty(Mono.error(new CommonException(ResponseCode.INVALID_USER)));
-////    }
     public Mono<SysUser> save(SysUser sysUser) {
-        String encodePassword = encode.encode(sysUser.getPassword());
-        sysUser.setPassword(encodePassword);
-        return sysUserRepository.save(sysUser);
+        return Mono.justOrEmpty(sysUser).filter(su ->
+                StringUtils.isNotBlank(su.getUsername()) &&
+                        StringUtils.isNotBlank(su.getPassword())
+        ).flatMap(su -> {
+            String encodePassword = encode.encode(sysUser.getPassword());
+            sysUser.setPassword(encodePassword);
+            return sysUserRepository.save(sysUser);
+        }).switchIfEmpty(Mono.error(new CommonException(ResponseCode.INVALID_USER)));
     }
 }
